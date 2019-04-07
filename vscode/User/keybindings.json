@@ -1,0 +1,22 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+	{
+		"key": "ctrl+shift+m",
+		"command": "-markdown.showPreviewToSide"
+	},
+	{
+		"key": "ctrl+shift+m",
+		"command": "markdown-preview-enhanced.openPreview",
+		"when": "editorLangId == 'markdown'"
+	},
+	{
+		"key": "ctrl+k v",
+		"command": "-markdown-preview-enhanced.openPreview",
+		"when": "editorLangId == 'markdown'"
+	},
+	{
+		"key": "ctrl+shift+enter",
+		"command": "-markdown-preview-enhanced.runAllCodeChunks",
+		"when": "editorLangId == 'markdown'"
+	}
+]

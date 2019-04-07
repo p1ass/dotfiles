@@ -1,0 +1,93 @@
+{
+	"files.autoSave": "afterDelay",
+	"editor.insertSpaces": false,
+	"workbench.colorTheme": "Atom One Dark",
+	"workbench.iconTheme": "vscode-icons",
+	"editor.fontFamily": "'Source Han Code JP'",
+	"atomKeymap.promptV3Features": true,
+	"editor.multiCursorModifier": "ctrlCmd",
+	"editor.formatOnPaste": true,
+	"git.confirmSync": false,
+	"editor.renderWhitespace": "boundary",
+	"explorer.confirmDelete": false,
+	"markdown-preview-enhanced.mermaidTheme": "default",
+	"markdown-preview-enhanced.previewTheme": "vue.css",
+	"markdown-preview-enhanced.codeBlockTheme": "vue.css",
+	"markdown-preview-enhanced.printBackground": true,
+	"window.zoomLevel": 0,
+	"markdown-preview-enhanced.latexEngine": "lualatex",
+	"markdown-preview-enhanced.mathBlockDelimiters": [
+		["$$", "$$"],
+		["\\[", "\\]"]
+	],
+	"markdown-preview-enhanced.enableExtendedTableSyntax": true,
+	"markdown-preview-enhanced.usePandocParser": true,
+	"eslint.alwaysShowStatus": true,
+	"eslint.nodePath": "/home/naoki/.nodebrew/current/bin/eslint",
+	"prettier.semi": false,
+	"editor.formatOnSave": true,
+	"prettier.disableLanguages": ["markdown"],
+	"prettier.singleQuote": true,
+	"prettier.tabWidth": 4,
+	"prettier.useTabs": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		{
+			"language": "vue",
+			"autoFix": true
+		},
+		{
+			"language": "html",
+			"autoFix": true
+		}
+	],
+	"prettier.eslintIntegration": true,
+	"explorer.confirmDragAndDrop": false,
+	"markdown-preview-enhanced.enableCriticMarkupSyntax": true,
+	"git.enableSmartCommit": true,
+	"javascript.validate.enable": false,
+	"javascript.format.enable": false,
+	"eslint.autoFixOnSave": true,
+	"vetur.format.defaultFormatter.js": "none",
+	"vetur.format.defaultFormatter.html": "none",
+	"vetur.format.defaultFormatter.css": "none",
+	"vetur.format.defaultFormatter.less": "none",
+	"vetur.format.defaultFormatter.postcss": "none",
+	"vetur.format.defaultFormatter.scss": "none",
+
+	// Whether to lint Python files.
+	"python.linting.enabled": true,
+	// Whether to lint Python files using pylint.
+	"python.linting.pylintEnabled": false,
+	"sshfs.configs": [
+		{
+			"label": "Conoha",
+			"root": "/home/plus",
+			"host": "150.95.182.149",
+			"port": 10022,
+			"username": "plus",
+			"privateKeyPath": "/home/naoki/.ssh/staging_plus",
+			"name": "ConohaVPS"
+		},
+		{
+			"label": "Conoha",
+			"root": "/home/plus",
+			"host": "150.95.182.149",
+			"port": 10022,
+			"username": "plus",
+			"privateKeyPath": "/home/naoki/.ssh/staging_plus",
+			"name": "conohavps"
+		}
+	],
+	"go.gocodeAutoBuild": true,
+	"go.autocompleteUnimportedPackages": true,
+	"go.formatTool": "gofmt",
+	"codic.ACCESS_TOKEN": "eSjvR40dH8ZeUJDt4llQlhAadoVIUnVkj5",
+	"codic.case": "snake_case",
+	"editor.tabSize": 2,
+	"editor.minimap.enabled": false,
+	"editor.fontWeight": "400",
+	"editor.fontSize": 13,
+	"python.linting.flake8Enabled": true
+}
