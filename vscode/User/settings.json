@@ -12,16 +12,35 @@
       {
         "language": "vue",
         "autoFix": true
+      },
+      {
+        "language": "javascript",
+        "autoFix": true
+      },
+      {
+        "language": "typescript",
+        "autoFix": true
+      },
+      {
+        "language": "typescriptreact",
+        "autoFix": true
       }
     ],
-  
-    "vetur.format.defaultFormatter.js": "none",
     "editor.wordWrap": "on",
     "files.autoSave": "onFocusChange",
     "javascript.updateImportsOnFileMove.enabled": "always",
     "markdown.preview.scrollEditorWithPreview": false,
     "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "editor.fontFamily": "Menlo",
-    "editor.fontSize": 13,
+    "editor.fontFamily": "HackGen,Menlo",
+    "editor.fontSize": 14,
     "editor.fontWeight": "500",
+    "files.insertFinalNewline": true,
+    "editor.largeFileOptimizations": false,
+    "prettier.eslintIntegration": true,
+    "go.useLanguageServer": true,
+    "C_Cpp.updateChannel": "Insiders",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "eslint.alwaysShowStatus": true,
+    "vetur.format.defaultFormatter.html": "prettier"
 }
