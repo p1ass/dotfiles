@@ -1,4 +1,3 @@
 #! /bin/bash
+rm .brewfile
 brew bundle dump --file=.brewfile
-
-code --list-extensions > vscode-extensions.txt

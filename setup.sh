@@ -8,15 +8,5 @@ do
     [[ "$f" == ".brewfile" ]] && continue
 
     echo "$f"
-    ln -s $HOME/dotfiles/$f $HOME/$f
-done
-
-# brewをリストア
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </dev/null
-brew bundle install --file=.brewfile
-
-#VS Codeの拡張機能をインストール
-cat ./vscode-extensions.txt | while read line
-do
-code --install-extension $line
+    ln -s ${pwd}/$f $HOME/$f
 done
