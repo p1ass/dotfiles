@@ -4,8 +4,8 @@ My dotfiles
 
 ## Backup
 
-``bash
-./backup.sh
+```bash
+./backup_brew.sh
 ```
 
 ## Restore
