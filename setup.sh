@@ -8,5 +8,6 @@ do
     [[ "$f" == ".brewfile" ]] && continue
 
     echo "$f"
-    ln -s ${pwd}/$f $HOME/$f
+    unlink $HOME/$f
+    ln -s $(cd $(dirname $0); pwd)/$f $HOME/$f
 done

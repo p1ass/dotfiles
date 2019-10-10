@@ -27,8 +27,10 @@ PS1="🤔.oO( "
 alias ..="cd .."
 alias ...="cd ../.."
 alias gcm="git commit -m"
-alias grbm="git branch --merged|egrep -v '\*|develop|master'|xargs git branch -d"
+alias gbrm="git branch --merged|egrep -v '\*|develop|master'|xargs git branch -d"
 alias k='kubectl'
+alias g='cd $(ghq root)/$(ghq list | peco)'
+alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
