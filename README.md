@@ -10,7 +10,7 @@ My dotfiles
 
 ## Restore
 ```bash
-git clone https://github.com/naoki-kishi/dotfiles
+git clone https://github.com/p1ass/dotfiles
 cd dotfiles
 ./setup.sh
 ./restore_brew.sh
