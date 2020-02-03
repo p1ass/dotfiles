@@ -6,8 +6,6 @@
     "explorer.confirmDelete": false,
     "markdown-preview-enhanced.previewTheme": "vue.css",
     "git.confirmSync": false,
-
-    "eslint.autoFixOnSave": true,
     "eslint.validate": [
       {
         "language": "vue",
@@ -31,8 +29,8 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "markdown.preview.scrollEditorWithPreview": false,
     "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "editor.fontFamily": "HackGen,Menlo",
-    "editor.fontSize": 14,
+    "editor.fontFamily": "Cica,HackGen,Menlo,Apple Color Emoji",
+    "editor.fontSize": 15,
     "editor.fontWeight": "500",
     "files.insertFinalNewline": true,
     "editor.largeFileOptimizations": false,
@@ -42,5 +40,16 @@
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "eslint.alwaysShowStatus": true,
-    "vetur.format.defaultFormatter.html": "prettier"
+    "vetur.format.defaultFormatter.html": "prettier",
+    "workbench.iconTheme": "vscode-icons",
+    "python.jediEnabled": false,
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "html.format.endWithNewline": true,
+    "eslint.autoFixOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "vsicons.dontShowNewVersionMessage": true
 }
