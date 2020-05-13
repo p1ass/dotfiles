@@ -20,8 +20,12 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
 
+# flutter
+export PATH="$PATH:$HOME/ghq/github.com/flutter/flutter/bin"
+
 # Environment variables
 export EDITOR="vim"
+export COMPOSE_HTTP_TIMEOUT=300
 
 # Alias
 alias ..="cd .."
@@ -38,6 +42,16 @@ alias mdtopdf='docker run -it --rm -v `pwd`:/workdir plass/mdtopdf mdtopdf'
 alias w-mdtopdf='docker run -it --rm -v `pwd`:/workdir  plass/mdtopdf w-mdtopdf'
 alias linecnt='git ls-files | xargs -n1 git --no-pager blame -w | wc -l'
 
+function gp () {
+    local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
+    if [ -n "$selected_pr_id" ]; then
+        BUFFER="gh pr checkout ${selected_pr_id}"
+        zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N gp
+bindkey "^g^p" gp
 # Prompt
 PS1="🤔.oO( "
 source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
@@ -47,9 +61,7 @@ kubeoff
 #fuck
 eval $(thefuck --alias)
 
-# The next line updates PATH for the Google Cloud SDK.
-export CLOUDSDK_PYTHON=$(which python)
-if [ -f '/Users/plus/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/plus/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
+export PATH="$PATH:$HOME/google-cloud-sdk/bin"
 if [ -f '/Users/plus/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/plus/google-cloud-sdk/completion.zsh.inc'; fi

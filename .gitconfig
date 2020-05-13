@@ -7,3 +7,5 @@
 [core]
 	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = /Users/plus/.gitignore_global
+[rebase]
+	autostash = true
