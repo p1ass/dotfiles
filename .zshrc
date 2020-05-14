@@ -6,6 +6,7 @@ fi
 # Import other file
 source $HOME/.bash_profile
 source $HOME/.zshrc.kube
+source $HOME/.zshrc.local
 
 # any env
 eval "$(direnv hook zsh)"
