@@ -9,3 +9,5 @@
 	excludesfile = /Users/plus/.gitignore_global
 [rebase]
 	autostash = true
+[pull]
+	rebase = false
