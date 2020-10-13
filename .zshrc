@@ -31,12 +31,11 @@ export PATH="$PATH:$HOME/ghq/github.com/flutter/flutter/bin"
 export EDITOR="vim"
 export COMPOSE_HTTP_TIMEOUT=300
 
+# Docker
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 # Alias
-alias ..="cd .."
-alias ...="cd ../.."
-alias gcm="git commit -m"
 alias gbrm="git branch --merged|egrep -v '\*|develop|master'|xargs git branch -d"
-alias k='kubectl'
 alias g='cd $(ghq root)/$(ghq list | peco)'
 alias goland='/usr/local/bin/goland .'
 alias h='hub browse'
@@ -58,11 +57,10 @@ function gp () {
 }
 zle -N gp
 bindkey "^g^p" gp
+
 # Prompt
 PS1="🤔.oO( "
 
-#fuck
-eval $(thefuck --alias)
 
 
 # The next line enables shell command completion for gcloud.
