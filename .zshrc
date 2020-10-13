@@ -46,6 +46,7 @@ alias w-mdtopdf='docker run -it --rm -v `pwd`:/workdir  plass/mdtopdf w-mdtopdf'
 alias linecnt='git ls-files | xargs -n1 git --no-pager blame -w | wc -l'
 alias rmcolor='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
 alias tailjq='while read line; do echo ${line}| gsed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | jq '.' ; done'
+alias sed='gsed'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
