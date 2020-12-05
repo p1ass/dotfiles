@@ -24,6 +24,9 @@ eval "$(rbenv init -)"
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
+# scipy
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+
 # flutter
 export PATH="$PATH:$HOME/ghq/github.com/flutter/flutter/bin"
 
@@ -33,9 +36,13 @@ export COMPOSE_HTTP_TIMEOUT=300
 
 # Docker
 export COMPOSE_DOCKER_CLI_BUILD=1
+export DOCKER_BUILDKIT=1
+
+# buildpack
+# . $(pack completion)
 
 # Alias
-alias gbrm="git branch --merged|egrep -v '\*|develop|master'|xargs git branch -d"
+alias gbrm="git branch --merged|egrep -v '\*|main|develop|master'|xargs git branch -d"
 alias g='cd $(ghq root)/$(ghq list | peco)'
 alias goland='/usr/local/bin/goland .'
 alias h='hub browse'
@@ -68,5 +75,12 @@ PS1="🤔.oO( "
 export PATH="$PATH:$HOME/google-cloud-sdk/bin"
 if [ -f '/Users/plus/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/plus/google-cloud-sdk/completion.zsh.inc'; fi
 
+fpath+=~/.zfunc
+
 autoload -U compinit
 compinit
+
+# sumo
+export SUMO_HOME="/usr/local/opt/sumo/share/sumo"
+export PATH="/usr/local/opt/expat/bin:$PATH"
+
