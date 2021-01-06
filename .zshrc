@@ -54,6 +54,7 @@ alias linecnt='git ls-files | xargs -n1 git --no-pager blame -w | wc -l'
 alias rmcolor='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
 alias tailjq='while read line; do echo ${line}| gsed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | jq '.' ; done'
 alias sed='gsed'
+alias pr='gh pr create -a p1ass -w'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
@@ -65,6 +66,24 @@ function gp () {
 }
 zle -N gp
 bindkey "^g^p" gp
+
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(history -n 1 | \
+        eval $tac | \
+        peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+
 
 # Prompt
 PS1="🤔.oO( "
