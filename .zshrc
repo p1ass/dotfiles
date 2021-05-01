@@ -38,6 +38,9 @@ export COMPOSE_HTTP_TIMEOUT=300
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 
+# Deno
+export PATH="$HOME/.deno/bin:$PATH"
+
 # buildpack
 # . $(pack completion)
 
