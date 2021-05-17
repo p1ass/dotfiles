@@ -4,7 +4,7 @@
  
 [core]
 	editor = vim -c \"set fenc=utf-8\"
-	excludesfile = /Users/plus/.gitignore_global
+	excludesfile = $HOME/.gitignore_global
 [push]
 	default = upstream
 [rebase]
@@ -14,3 +14,8 @@
 	ff = only
 [merge]
 	ff = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
