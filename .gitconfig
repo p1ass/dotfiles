@@ -2,6 +2,9 @@
 	email = contact@p1ass.com
 	name = Naoki Kishi
  
+ [include]
+    path = ~/.gitconfig_local
+
 [core]
 	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = ~/.gitignore_global
