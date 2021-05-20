@@ -1,3 +1,4 @@
 .DS_store
 .zshrc.local
 .idea
+.gitconfig_local
