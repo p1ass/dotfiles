@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Exec local hook
+source `dirname ${0}`/_local-hook-exec
+
 # An example hook script to verify what is about to be pushed.  Called by "git
 # push" after it has checked the remote status, but before anything has been
 # pushed.  If this script exits with a non-zero status nothing will be pushed.
@@ -40,11 +43,11 @@ do
             range="$remote_sha..$local_sha"
         fi
 
-        # Check for WIP commit
+        # Check for WIP commit  
         commit=`git rev-list -n 1 --grep '^\[from now\]' "$range"`
         if [ -n "$commit" ]
         then
-            echo >&2 "Found NOW commit in $local_ref, not pushing"
+            echo >&2 "Found git-now commit in $local_ref, not pushing"
             exit 1
         fi
     fi
