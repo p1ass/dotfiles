@@ -20,6 +20,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
+export PATH="$HOME/.plenv/bin:$PATH"
+eval "$(plenv init - zsh)"
 
 
 #poetry
@@ -60,10 +62,11 @@ alias tailjq='while read line; do echo ${line}| gsed -r "s/\x1B\[([0-9]{1,2}(;[0
 alias sed='gsed'
 alias pr='gh pr create -a p1ass -w'
 alias md2c='pandoc -f markdown -t textile <(pbpaste) | pbcopy' # コンフル形式に変換
+alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
-    if [ -n "$selected_pr_id" ]; then
+    if [ -n "$selected_pr_id" ]; then~
         BUFFER="gh pr checkout ${selected_pr_id}"
         zle accept-line
     fi
@@ -94,7 +97,7 @@ bindkey '^h' peco-select-history
 PS1="🤔.oO( "
 
 
-# The next line updates PATH for the Google Cloud SDK.
+# The next line updates PATH for the Google Cloud SDK.~
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
