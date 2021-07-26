@@ -21,15 +21,12 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
-<<<<<<< Updated upstream
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init - zsh)"
 
-=======
 source ~/perl5/perlbrew/etc/bashrc
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
->>>>>>> Stashed changes
 
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
