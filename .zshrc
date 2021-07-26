@@ -12,6 +12,7 @@ source $HOME/.zshrc.local
 eval "$(direnv hook zsh)"
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
+export GOENV_DISABLE_GOPATH=1
 eval "$(goenv init -)"
 export PATH="$GOROOT/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
@@ -20,9 +21,15 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
+<<<<<<< Updated upstream
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init - zsh)"
 
+=======
+source ~/perl5/perlbrew/etc/bashrc
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+>>>>>>> Stashed changes
 
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
@@ -91,7 +98,12 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^h' peco-select-history
 
-
+function fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
 
 # Prompt
 PS1="🤔.oO( "
@@ -115,3 +127,6 @@ compinit
 export SUMO_HOME="/usr/local/opt/sumo/share/sumo"
 export PATH="/usr/local/opt/expat/bin:$PATH"
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
