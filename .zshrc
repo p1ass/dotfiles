@@ -28,6 +28,9 @@ source ~/perl5/perlbrew/etc/bashrc
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
+# The next line enables shell command completion for gcloud.
+export PATH="$HOME/google-cloud-sdk/bin:$PATH"
+
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
@@ -70,7 +73,7 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
-    if [ -n "$selected_pr_id" ]; then~
+    if [ -n "$selected_pr_id" ]; then
         BUFFER="gh pr checkout ${selected_pr_id}"
         zle accept-line
     fi
@@ -112,8 +115,6 @@ if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 
-# The next line enables shell command completion for gcloud.
-export PATH="$PATH:$HOME/google-cloud-sdk/bin"
 
 fpath+=~/.zfunc
 
