@@ -23,6 +23,8 @@ export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init - zsh)"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
 source ~/perl5/perlbrew/etc/bashrc
 export PATH="$HOME/.jenv/bin:$PATH"
