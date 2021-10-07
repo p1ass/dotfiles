@@ -69,7 +69,7 @@ alias linecnt='git ls-files | xargs -n1 git --no-pager blame -w | wc -l'
 alias rmcolor='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
 alias tailjq='while read line; do echo ${line}| gsed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | jq '.' ; done'
 alias sed='gsed'
-alias pr='gh pr create -a p1ass -w'
+alias pr='gh pr create -a @me -w'
 alias md2c='pandoc -f markdown -t textile <(pbpaste) | pbcopy' # コンフル形式に変換
 alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
