@@ -74,6 +74,7 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 alias acat='bat'
 alias als='exa'
 alias tree='br'
+eval "$(mcfly init zsh)"
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
@@ -85,22 +86,6 @@ function gp () {
 }
 zle -N gp
 bindkey "^g^p" gp
-
-function peco-select-history() {
-    local tac
-    if which tac > /dev/null; then
-        tac="tac"
-    else
-        tac="tail -r"
-    fi
-    BUFFER=$(history -n 1 | \
-        eval $tac | \
-        peco --query "$LBUFFER")
-    CURSOR=$#BUFFER
-    zle clear-screen
-}
-zle -N peco-select-history
-bindkey '^h' peco-select-history
 
 function fd() {
   local dir
