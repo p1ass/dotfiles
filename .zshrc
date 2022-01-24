@@ -10,12 +10,9 @@ source $HOME/.zshrc.local
 
 # any env
 eval "$(direnv hook zsh)"
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
 export GOENV_DISABLE_GOPATH=1
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
@@ -72,6 +69,10 @@ alias sed='gsed'
 alias pr='gh pr create -a @me -w'
 alias md2c='pandoc -f markdown -t textile <(pbpaste) | pbcopy' # コンフル形式に変換
 alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
+
+# Alternative unix command
+alias acat='bat'
+alias als='exa'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
