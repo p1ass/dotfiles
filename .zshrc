@@ -73,6 +73,7 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 # Alternative unix command
 alias acat='bat'
 alias als='exa'
+alias tree='br'
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
