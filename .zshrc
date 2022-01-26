@@ -107,8 +107,9 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 
 fpath+=~/.zfunc
 
-autoload -U compinit
-compinit
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+complete -C '/usr/local/bin/aws_completer' aws
 
 # sumo
 export SUMO_HOME="/usr/local/opt/sumo/share/sumo"
