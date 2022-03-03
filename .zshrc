@@ -5,7 +5,7 @@ fi
 
 # Import other file
 source $HOME/.bash_profile
-source $HOME/.zshrc.kube
+# source $HOME/.zshrc.kube
 source $HOME/.zshrc.local
 
 # any env
@@ -20,12 +20,15 @@ export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init - zsh)"
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+
+
+# asdf
+. /usr/local/opt/asdf/libexec/asdf.sh
+. ~/.asdf/plugins/java/set-java-home.zsh
+
 
 source ~/perl5/perlbrew/etc/bashrc
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+
 
 # The next line enables shell command completion for gcloud.
 export PATH="$HOME/google-cloud-sdk/bin:$PATH"
