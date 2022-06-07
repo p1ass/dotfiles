@@ -18,12 +18,10 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 export PATH="$HOME/bin:$PATH"
 eval "$(rbenv init -)"
-export PATH="$HOME/.plenv/bin:$PATH"
-eval "$(plenv init - zsh)"
 
 
 # asdf
-. /usr/local/opt/asdf/libexec/asdf.sh
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
 
 
