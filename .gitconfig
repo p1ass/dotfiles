@@ -1,6 +1,6 @@
 [user]
-	email = contact@p1ass.com
-	name = Naoki Kishi
+	email = naoki.kishi@dena.com
+	name = p1ass
  
 [include]
 path = ~/.gitconfig_local
@@ -8,16 +8,17 @@ path = ~/.gitconfig_local
 [core]
 	editor = vim -c \"set fenc=utf-8\"
 	excludesfile = ~/.gitignore_global
+	autocrlf = input
 #    hooksPath = ~/.git_template/hooks
 [push]
 	default = upstream
 [rebase]
 	autostash = true
 [pull]
-	rebase = true
-	ff = only
+	rebase = false
+#	ff = only
 [merge]
-	ff = false
+#	ff = false
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

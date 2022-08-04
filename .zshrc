@@ -9,6 +9,7 @@ source $HOME/.bash_profile
 source $HOME/.zshrc.local
 
 # any env
+export GOROOT=/usr/local/go
 eval "$(direnv hook zsh)"
 export GOENV_DISABLE_GOPATH=1
 export PATH="/usr/local/go/bin:$PATH"
@@ -50,6 +51,9 @@ export DOCKER_BUILDKIT=1
 
 # Deno
 export PATH="$HOME/.deno/bin:$PATH"
+
+# Node
+export NODE_PATH=$NODE_PATH:"$(yarn global dir)/node_modules"
 
 # buildpack
 # . $(pack completion)
@@ -95,6 +99,27 @@ function fd() {
   cd "$dir"
 }
 
+function daily_start() {
+    brew upgrade
+    find $HOME/ghq -type d -maxdepth 3 -mindepth 3 | xargs -P 32 -IREPO_NAME zoekt-index -index $HOME/.zoekt -ignore_dirs=".git,.hg,.svn,node_modules" REPO_NAME
+}
+
+# 5秒以上かかったコマンドの終了を通知する
+# https://morishin.hatenablog.com/entry/2016/10/01/223731
+function preexec () {
+   _prev_cmd_start_time=$SECONDS
+   _cmd_is_running=true
+}
+function precmd() {
+  if $_cmd_is_running ; then
+    _prev_cmd_exec_time=$((SECONDS - _prev_cmd_start_time))
+    if ((_prev_cmd_exec_time > 5)); then
+      terminal-notifier -message "Command execution finished" -sound default
+    fi
+  fi
+  _cmd_is_running=false
+}
+
 # Prompt
 PS1="🤔.oO( "
 
@@ -119,3 +144,6 @@ export PATH="/usr/local/opt/expat/bin:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+
