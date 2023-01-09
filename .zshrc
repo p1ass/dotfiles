@@ -11,12 +11,14 @@ if [[ -s "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
 fi
 
-# any env
+# go
 export GOROOT=/usr/local/go
-eval "$(direnv hook zsh)"
 export GOENV_DISABLE_GOPATH=1
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+
+# path
+eval "$(direnv hook zsh)"
 export PATH="$HOME/bin:$PATH"
 
 
