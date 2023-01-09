@@ -23,7 +23,7 @@ export PATH="$HOME/bin:$PATH"
 
 
 # asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+. $(brew --prefix asdf)/libexec/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
 
 source ~/perl5/perlbrew/etc/bashrc

@@ -1,3 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
+
 rm .brewfile
 brew bundle dump --file=.brewfile

@@ -5,15 +5,11 @@ My dotfiles
 ## Backup
 
 ```bash
-./backup_brew.sh
-./backup_vscode.sh
+./script/backup_brew.sh
 ```
 
-## Restore
+## Setup
 
 ```bash
-git clone https://github.com/p1ass/dotfiles
-cd dotfiles
-./setup.sh
-./restore_brew.sh
+bash -c "`curl -sL https://raw.githubusercontent.com/p1ass/dotfiles/master/install.sh`"
 ```
