@@ -4,9 +4,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Import other file
-source $HOME/.bash_profile
-# source $HOME/.zshrc.kube
-source $HOME/.zshrc.local
+if [[ -s "$HOME/.bash_profile" ]]; then
+  source $HOME/.bash_profile
+fi
+if [[ -s "$HOME/.zshrc.local" ]]; then
+  source $HOME/.zshrc.local
+fi
 
 # any env
 export GOROOT=/usr/local/go
@@ -43,10 +46,10 @@ export PATH="$PATH:$HOME/ghq/github.com/flutter/flutter/bin"
 
 # Environment variables
 export EDITOR="vim"
-export COMPOSE_HTTP_TIMEOUT=300
 
 # Docker
 export COMPOSE_DOCKER_CLI_BUILD=1
+export COMPOSE_HTTP_TIMEOUT=300
 export DOCKER_BUILDKIT=1
 
 # Deno
@@ -79,7 +82,7 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 alias acat='bat'
 alias als='exa'
 alias tree='br'
-eval "$(mcfly init zsh)"
+source /Users/naoki.kishi/.config/broot/launcher/bash/br
 
 function gp () {
     local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
