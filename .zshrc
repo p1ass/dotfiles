@@ -17,16 +17,12 @@ eval "$(direnv hook zsh)"
 export GOENV_DISABLE_GOPATH=1
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 export PATH="$HOME/bin:$PATH"
 
 
 # asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
-
 
 source ~/perl5/perlbrew/etc/bashrc
 
