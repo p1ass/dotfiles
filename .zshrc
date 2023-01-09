@@ -26,8 +26,6 @@ export PATH="$HOME/bin:$PATH"
 . $(brew --prefix asdf)/libexec/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
 
-source ~/perl5/perlbrew/etc/bashrc
-
 
 # The next line enables shell command completion for gcloud.
 export PATH="$HOME/google-cloud-sdk/bin:$PATH"
