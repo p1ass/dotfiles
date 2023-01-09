@@ -1,8 +1,6 @@
 #! /usr/bin/env bash
-set -e
-brew install federico-terzi/espanso/espanso
+brew install espanso/espanso/espanso
 espanso --version
-espanso register
 espanso start
 espanso install all-emojis
 espanso restart
