@@ -21,3 +21,7 @@ asdf global python latest
 asdf plugin add perl
 asdf install perl 5.36.0
 asdf global perl 5.36.0
+
+# Alias
+asdf plugin add alias https://github.com/andrewthauer/asdf-alias.git
+asdf alias java 17.0 corretto-17.0.3.6.1
