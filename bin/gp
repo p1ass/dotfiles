@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
+if [ -n "$selected_pr_id" ]; then
+    gh pr checkout ${selected_pr_id}
+fi

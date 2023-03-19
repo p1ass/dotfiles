@@ -44,6 +44,9 @@ export PATH="$HOME/.deno/bin:$PATH"
 # Node
 export NODE_PATH=$NODE_PATH:"$(yarn global dir)/node_modules"
 
+# dotfiles bin
+export PATH="$PATH:$HOME/ghq/github.com/p1ass/dotfiles/bin"
+
 # buildpack
 # . $(pack completion)
 
@@ -69,17 +72,6 @@ alias acat='bat'
 alias als='exa'
 alias tree='br'
 source /Users/naoki.kishi/.config/broot/launcher/bash/br
-
-function gp () {
-    local selected_pr_id=$(gh pr list | peco | awk '{ print $1 }')
-    if [ -n "$selected_pr_id" ]; then
-        BUFFER="gh pr checkout ${selected_pr_id}"
-        zle accept-line
-    fi
-    zle clear-screen
-}
-zle -N gp
-bindkey "^g^p" gp
 
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
