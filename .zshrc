@@ -19,7 +19,6 @@ export PATH="$HOME/bin:$PATH"
 . ~/.asdf/plugins/java/set-java-home.zsh
 
 
-# The next line enables shell command completion for gcloud.
 export PATH="$HOME/google-cloud-sdk/bin:$PATH"
 
 #poetry
