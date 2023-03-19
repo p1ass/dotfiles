@@ -3,14 +3,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Import other file
-if [[ -s "$HOME/.bash_profile" ]]; then
-  source $HOME/.bash_profile
-fi
-if [[ -s "$HOME/.zshrc.local" ]]; then
-  source $HOME/.zshrc.local
-fi
-
 # go
 export GOROOT=/usr/local/go
 export GOENV_DISABLE_GOPATH=1
@@ -154,3 +146,17 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
+# 1Password
+eval "$(op completion zsh)"; compdef _op op
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# Import other file
+if [[ -s "$HOME/.bash_profile" ]]; then
+  source $HOME/.bash_profile
+fi
+if [[ -s "$HOME/.zshrc.local" ]]; then
+  source $HOME/.zshrc.local
+fi
