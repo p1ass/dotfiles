@@ -71,28 +71,8 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 alias acat='bat'
 alias als='exa'
 alias tree='br'
-source /Users/naoki.kishi/.config/broot/launcher/bash/br
+source $HOME/.config/broot/launcher/bash/br
 
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
-
-function fd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-
-function daily_start() {
-    brew upgrade
-    find $HOME/ghq -type d -maxdepth 3 -mindepth 3 | xargs -P 32 -IREPO_NAME zoekt-index -index $HOME/.zoekt -ignore_dirs=".git,.hg,.svn,node_modules" REPO_NAME
-}
 
 # 5秒以上かかったコマンドの終了を通知する
 # https://morishin.hatenablog.com/entry/2016/10/01/223731
@@ -112,7 +92,11 @@ function precmd() {
 
 # Prompt
 PS1="🤔.oO( "
-
+if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
+  PS1='%F{075}`pwd | sed "s|$HOME|~|g"`%f `rprompt-git-current-branch`%F{cyan}[`rprompt-gcloud-current-project`]%f'
+else 
+  RPROMPT="%F{cyan}[`rprompt-gcloud-current-project`]%f"
+fi
 
 # The next line updates PATH for the Google Cloud SDK.~
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
@@ -123,12 +107,10 @@ if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-clou
 
 fpath+=~/.zfunc
 
-autoload bashcompinit && bashcompinit
+autoload -U +X bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 complete -C '/usr/local/bin/aws_completer' aws
 
-
-autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
