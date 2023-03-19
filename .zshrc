@@ -127,10 +127,6 @@ autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 complete -C '/usr/local/bin/aws_completer' aws
 
-# sumo
-export SUMO_HOME="/usr/local/opt/sumo/share/sumo"
-export PATH="/usr/local/opt/expat/bin:$PATH"
-
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
