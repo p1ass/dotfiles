@@ -12,6 +12,7 @@ path = ~/.gitconfig_local
 #    hooksPath = ~/.git_template/hooks
 [push]
 	default = upstream
+	autoSetupRemote = true
 [rebase]
 	autostash = true
 [pull]
