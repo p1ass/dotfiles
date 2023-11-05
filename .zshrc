@@ -69,10 +69,18 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 
 # Alternative unix command
 alias acat='bat'
-alias als='exa'
+alias als='eza'
 alias tree='br'
 source $HOME/.config/broot/launcher/bash/br
 
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
 
 # 5秒以上かかったコマンドの終了を通知する
 # https://morishin.hatenablog.com/entry/2016/10/01/223731
@@ -92,11 +100,6 @@ function precmd() {
 
 # Prompt
 PS1="🤔.oO( "
-if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
-  PS1='%F{075}`pwd | sed "s|$HOME|~|g"`%f `rprompt-git-current-branch`%F{cyan}[`rprompt-gcloud-current-project`]%f'
-else 
-  RPROMPT="%F{cyan}[`rprompt-gcloud-current-project`]%f"
-fi
 
 # The next line updates PATH for the Google Cloud SDK.~
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
@@ -129,3 +132,5 @@ fi
 if [[ -s "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
 fi
+
+source /Users/naoki.kishi/.config/broot/launcher/bash/br
