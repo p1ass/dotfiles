@@ -15,7 +15,8 @@ export PATH="$HOME/bin:$PATH"
 
 
 # asdf
-. $(brew --prefix asdf)/libexec/asdf.sh
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
 . ~/.asdf/plugins/java/set-java-home.zsh
 
 
@@ -70,6 +71,7 @@ alias cpu='sudo powermetrics --samplers smc |grep -i "CPU die temperature"'
 # Alternative unix command
 alias acat='bat'
 alias als='eza'
+alias adu='dust'
 alias tree='br'
 source $HOME/.config/broot/launcher/bash/br
 
@@ -134,3 +136,5 @@ if [[ -s "$HOME/.zshrc.local" ]]; then
 fi
 
 source /Users/naoki.kishi/.config/broot/launcher/bash/br
+
+source <(jj util completion zsh)
