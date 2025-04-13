@@ -2,4 +2,6 @@
 
 rm .brewfile
 brew bundle dump --file=.brewfile
-rm .brewfile.lock.json
+if [ -f .brewfile.lock.json ]; then
+    rm .brewfile.lock.json
+fi
