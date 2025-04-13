@@ -25,6 +25,10 @@ export PATH="$HOME/google-cloud-sdk/bin:$PATH"
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
+# uv
+. "$HOME/.local/bin/env"
+source "$HOME/.zshrc.uv"
+
 # scipy
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
@@ -39,8 +43,16 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 export COMPOSE_HTTP_TIMEOUT=300
 export DOCKER_BUILDKIT=1
 
+# Terraform
+export TF_CLI_ARGS_plan="--parallelism=30"
+export TF_CLI_ARGS_apply="--parallelism=30"
+
+
 # Deno
 export PATH="$HOME/.deno/bin:$PATH"
+
+# Bun
+export PATH="$HOME/.bun/bin:$PATH"
 
 # Node
 export NODE_PATH=$NODE_PATH:"$(yarn global dir)/node_modules"
@@ -73,6 +85,7 @@ alias acat='bat'
 alias als='eza'
 alias adu='dust'
 alias tree='br'
+alias atree='br'
 source $HOME/.config/broot/launcher/bash/br
 
 function peco-history-selection() {
@@ -107,7 +120,7 @@ PS1="🤔.oO( "
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 fpath+=~/.zfunc
@@ -135,6 +148,24 @@ if [[ -s "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
 fi
 
-source /Users/naoki.kishi/.config/broot/launcher/bash/br
+source $HOME/.config/broot/launcher/bash/br
 
 source <(jj util completion zsh)
+source $HOME/.config/broot/launcher/bash/br
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
