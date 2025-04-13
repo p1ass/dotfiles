@@ -150,7 +150,6 @@ fi
 
 source $HOME/.config/broot/launcher/bash/br
 
-source $HOME/.config/broot/launcher/bash/br
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
