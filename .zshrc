@@ -150,7 +150,6 @@ fi
 
 source $HOME/.config/broot/launcher/bash/br
 
-source <(jj util completion zsh)
 source $HOME/.config/broot/launcher/bash/br
 
 # pnpm
