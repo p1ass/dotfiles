@@ -25,10 +25,6 @@ export PATH="$HOME/google-cloud-sdk/bin:$PATH"
 #poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
-# uv
-. "$HOME/.local/bin/env"
-source "$HOME/.zshrc.uv"
-
 # scipy
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
