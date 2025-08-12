@@ -84,8 +84,13 @@ alias tree='br'
 alias atree='br'
 source $HOME/.config/broot/launcher/bash/br
 
+
+# share .zshhistory
+setopt inc_append_history
+setopt share_history
+
 function peco-history-selection() {
-    BUFFER=`history -n 1 | rev  | awk '!a[$0]++' | peco`
+    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
     zle reset-prompt
 }
