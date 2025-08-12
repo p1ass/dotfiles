@@ -40,8 +40,8 @@ export COMPOSE_HTTP_TIMEOUT=300
 export DOCKER_BUILDKIT=1
 
 # Terraform
-export TF_CLI_ARGS_plan="--parallelism=30"
-export TF_CLI_ARGS_apply="--parallelism=30"
+export TF_CLI_ARGS_plan="--parallelism=50"
+export TF_CLI_ARGS_apply="--parallelism=50"
 
 
 # Deno
@@ -85,7 +85,7 @@ alias atree='br'
 source $HOME/.config/broot/launcher/bash/br
 
 function peco-history-selection() {
-    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
+    BUFFER=`history -n 1 | rev  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
     zle reset-prompt
 }
@@ -163,3 +163,7 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 
+
+alias claude="/Users/naoki.kishi/.claude/local/claude"
+
+source <(gwq completion zsh)
