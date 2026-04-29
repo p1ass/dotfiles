@@ -30,10 +30,13 @@ for d in "$DOTFILES_DIR"/.config/*/; do
     ln -s "$DOTFILES_DIR/.config/$name" "$HOME/.config/$name"
 done
 
-# .claude 配下をリンク
+# .claude 配下をリンク（既存ファイルを壊さないようファイル単位でリンク）
 mkdir -p "$HOME/.claude"
 echo ".claude/settings.json"
 ln -sf "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
-echo ".claude/hooks"
-\rm -rf "$HOME/.claude/hooks"
-ln -sf "$DOTFILES_DIR/.claude/hooks" "$HOME/.claude/hooks"
+mkdir -p "$HOME/.claude/hooks"
+for f in "$DOTFILES_DIR"/.claude/hooks/*; do
+    name=$(basename "$f")
+    echo ".claude/hooks/$name"
+    ln -sf "$f" "$HOME/.claude/hooks/$name"
+done
