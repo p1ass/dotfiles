@@ -1,3 +1,6 @@
+# pure テーマの prompt character を絵文字に変更（prezto 読み込み前に設定）
+PURE_PROMPT_SYMBOL="🤔.oO("
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -61,13 +64,6 @@ function precmd() {
   _cmd_is_running=false
 }
 
-# Prompt: pure テーマの prompt character (❯) を絵文字に変更
-prompt_pure_set_title() {}
-zstyle ':prompt:pure:prompt:success' color default
-function set_pure_ps1() {
-  PROMPT='🤔.oO( '
-}
-precmd_functions+=(set_pure_ps1)
 
 # Completions
 source "$HOME/.zshrc.completion"
