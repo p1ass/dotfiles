@@ -23,7 +23,7 @@ eval "$(uv generate-shell-completion zsh)"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # gwq
-source <(gwq completion zsh)
+command -v gwq &> /dev/null && source <(gwq completion zsh)
 
 # Docker CLI
 fpath=($HOME/.docker/completions $fpath)

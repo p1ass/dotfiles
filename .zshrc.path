@@ -33,7 +33,7 @@ case ":$PATH:" in
 esac
 
 # uv
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
 # dotfiles bin
 export PATH="$PATH:$HOME/ghq/github.com/p1ass/dotfiles/bin"

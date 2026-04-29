@@ -31,7 +31,7 @@ alias als='eza'
 alias adu='dust'
 alias tree='br'
 alias atree='br'
-source $HOME/.config/broot/launcher/bash/br
+[[ -f "$HOME/.config/broot/launcher/bash/br" ]] && source "$HOME/.config/broot/launcher/bash/br"
 
 # share .zshhistory
 setopt inc_append_history
