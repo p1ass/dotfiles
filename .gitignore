@@ -2,3 +2,5 @@
 .zshrc.local
 .idea
 .gitconfig_local
+
+.claude/settings.local.json

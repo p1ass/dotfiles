@@ -1,3 +1,0 @@
-#! /usr/bin/env zsh
-
-echo "`cat ~/.config/gcloud/configurations/config_default | grep project | sed -E 's/^\project = (.*)$/\1/'`"

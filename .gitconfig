@@ -1,46 +1,34 @@
 [user]
 	email = me@p1ass.com
 	name = p1ass
- 
+
 [include]
-path = ~/.gitconfig_local
+	path = ~/.gitconfig_local # 組織別設定 (includeIf) を読み込む
 
 [core]
 	editor = vim
-	excludesfile = ~/.gitignore_global
-	autocrlf = input
-#    hooksPath = ~/.git_template/hooks
+	excludesfile = ~/.gitignore_global # グローバルの .gitignore
+	autocrlf = input # コミット時に CRLF → LF に変換、チェックアウト時はそのまま
 [push]
-	default = upstream
-	autoSetupRemote = true
+	default = simple # カレントブランチと同名のリモートブランチにのみ push
+	autoSetupRemote = true # 初回 push 時に自動で upstream を設定
 [rebase]
-	autostash = true
+	autostash = true # rebase 前に自動で stash し、完了後に pop
 [pull]
-	rebase = true
+	rebase = true # pull 時に merge ではなく rebase を使う
 [rerere]
-	enabled = true
-#	ff = only
-[merge]
-#	ff = false
+	enabled = true # コンフリクト解決を記録し、同じパターンを自動解決
 [submodule]
-	recurse = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+	recurse = true # clone/pull/checkout 時にサブモジュールも再帰的に更新
 [commit]
-	template = ~/.stCommitMsg
+	verbose = true # コミットメッセージ編集時に diff を表示
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[submodule]
-	recurse = true
 [init]
-	defaultBranch = main
+	defaultBranch = main # git init 時のデフォルトブランチ名
 [secrets]
 	providers = git secrets --aws-provider
 	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}

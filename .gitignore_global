@@ -1,3 +1,20 @@
 .DS_Store
 .idea
 .vscode
+
+# vim
+*.swp
+*.swo
+*~
+
+# env
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
