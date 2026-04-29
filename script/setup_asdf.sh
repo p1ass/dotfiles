@@ -1,27 +1,25 @@
 #! /usr/bin/env bash
 
+set -euo pipefail
+
 brew install asdf
 
 # Node.js
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf install nodejs lts
-asdf global nodejs lts
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git || true
+asdf install nodejs latest
+asdf set --home nodejs latest
 
 # Ruby
-asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git || true
 asdf install ruby latest
-asdf global ruby latest
+asdf set --home ruby latest
 
 # Python
-asdf plugin-add python
+asdf plugin add python || true
 asdf install python latest
-asdf global python latest
+asdf set --home python latest
 
-# Perl
-asdf plugin add perl
-asdf install perl 5.36.0
-asdf global perl 5.36.0
-
-# Alias
-asdf plugin add alias https://github.com/andrewthauer/asdf-alias.git
-asdf alias java 17.0 corretto-17.0.3.6.1
+# Java
+asdf plugin add java || true
+asdf install java latest:corretto
+asdf set --home java latest:corretto

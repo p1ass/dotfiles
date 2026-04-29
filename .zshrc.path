@@ -1,0 +1,39 @@
+# go (公式インストール)
+export GOROOT=/usr/local/go
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# general
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# asdf
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
+. ~/.asdf/plugins/java/set-java-home.zsh
+
+# Google Cloud SDK
+export PATH="$HOME/google-cloud-sdk/bin:$PATH"
+
+# Deno
+export PATH="$HOME/.deno/bin:$PATH"
+
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# uv
+. "$HOME/.local/bin/env"
+
+# dotfiles bin
+export PATH="$PATH:$HOME/ghq/github.com/p1ass/dotfiles/bin"

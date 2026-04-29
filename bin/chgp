@@ -1,3 +1,5 @@
 #! /usr/bin/env zsh
-config=$(gcloud config configurations list | awk '{print $1}' | peco)
-gcloud config configurations activate ${config}
+config=$(gcloud config configurations list | fzf --header-lines=1 | awk '{print $1}')
+if [ -n "$config" ]; then
+    gcloud config configurations activate ${config}
+fi

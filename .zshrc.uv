@@ -1,4 +1,0 @@
-. "$HOME/.local/bin/env"
-source "$HOME/.zshrc.uv"
-
-eval "$(uv generate-shell-completion zsh)"
