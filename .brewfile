@@ -10,6 +10,7 @@ tap "k1low/tap"
 tap "kayac/tap"
 tap "ktr0731/evans"
 tap "muesli/tap"
+tap "hashicorp/tap"
 
 # Core tools
 brew "bat"
@@ -57,7 +58,7 @@ brew "uv"
 brew "openssl@3"
 brew "flyctl"
 brew "stern"
-brew "terraform"
+brew "hashicorp/tap/terraform"
 
 # Database
 brew "mysql"
