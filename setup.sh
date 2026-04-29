@@ -4,8 +4,8 @@
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-./script/link_dotfile.sh
 ./script/setup_zsh.sh
+./script/link_dotfile.sh
 ./script/restore_brew.sh
 
 # restore_brew.sh はサブプロセスなので、ここで改めて PATH を通す
