@@ -17,6 +17,7 @@ fi
 
 ./script/setup_asdf.sh
 ./script/setup_gcloud.sh
+./script/setup_iterm2.sh
 ./script/setup_macos.sh
 
 # Claude Code CLI
