@@ -56,6 +56,9 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 # .DS_Store を USB ボリュームに作成しない
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+# Spotlight: インデックス作成を無効化（Raycast で代替）
+sudo mdutil -a -i off
+
 # 設定を反映
 killall Finder
 killall Dock
