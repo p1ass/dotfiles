@@ -30,7 +30,10 @@ for d in "$DOTFILES_DIR"/.config/*/; do
     ln -s "$DOTFILES_DIR/.config/$name" "$HOME/.config/$name"
 done
 
-# .claude/settings.json をリンク
-echo ".claude/settings.json"
+# .claude 配下をリンク
 mkdir -p "$HOME/.claude"
+echo ".claude/settings.json"
 ln -sf "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
+echo ".claude/hooks"
+\rm -rf "$HOME/.claude/hooks"
+ln -sf "$DOTFILES_DIR/.claude/hooks" "$HOME/.claude/hooks"
