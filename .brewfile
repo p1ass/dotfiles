@@ -123,7 +123,6 @@ cask "slack"
 cask "visual-studio-code"
 cask "vlc"
 cask "xquartz"
-cask "zoom"
 
 # VSCode Extensions
 vscode "42crunch.vscode-openapi"
