@@ -61,10 +61,8 @@ function precmd() {
   _cmd_is_running=false
 }
 
-# Prompt
-setopt PROMPT_SUBST
-PS1='%F{cyan}%~%f
-🤔.oO( '
+# Prompt (pure テーマの prompt character を上書き)
+PS1="🤔.oO( "
 
 # Completions
 source "$HOME/.zshrc.completion"
