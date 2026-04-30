@@ -52,12 +52,6 @@
     "ask": [],
     "defaultMode": "default"
   },
-  "language": "日本語",
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "high",
-  "skipDangerousModePermissionPrompt": true,
-  "preferredNotifChannel": "terminal_bell",
-  "skipAutoPermissionPrompt": true,
   "hooks": {
     "Notification": [
       {
@@ -85,9 +79,9 @@
     "pr-review-toolkit@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "feature-dev@claude-code-plugins": true,
     "frontend-design@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true
   }
 }
