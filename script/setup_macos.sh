@@ -27,7 +27,7 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
 
 # Dock: アイコンサイズ
-defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock tilesize -int 48
 
 # Dock: 自動的に隠す
 defaults write com.apple.dock autohide -bool true
