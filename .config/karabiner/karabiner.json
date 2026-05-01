@@ -19,7 +19,7 @@
                                         "lazy": true
                                     }
                                 ],
-                                "to_if_alone": [{ "select_input_source": { "language": "en" } }],
+                                "to_if_alone": [{ "select_input_source": { "input_source_id": "com.apple.keylayout.ABC" } }],
                                 "to_if_held_down": [{ "key_code": "left_command" }],
                                 "type": "basic"
                             },
@@ -35,7 +35,7 @@
                                         "lazy": true
                                     }
                                 ],
-                                "to_if_alone": [{ "select_input_source": { "language": "ja" } }],
+                                "to_if_alone": [{ "select_input_source": { "input_source_id": "com.google.inputmethod.Japanese.base" } }],
                                 "to_if_held_down": [{ "key_code": "right_command" }],
                                 "type": "basic"
                             }
