@@ -4,3 +4,5 @@
 .gitconfig_local
 
 .claude/settings.local.json
+
+.config/karabiner/automatic_backups
