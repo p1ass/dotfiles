@@ -42,3 +42,7 @@ for f in "$DOTFILES_DIR"/.claude/hooks/*; do
     echo ".claude/hooks/$name"
     ln -sf "$f" "$HOME/.claude/hooks/$name"
 done
+if [[ -f "$DOTFILES_DIR/.claude/statusline.sh" ]]; then
+    echo ".claude/statusline.sh"
+    ln -sf "$DOTFILES_DIR/.claude/statusline.sh" "$HOME/.claude/statusline.sh"
+fi
