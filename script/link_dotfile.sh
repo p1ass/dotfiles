@@ -32,8 +32,10 @@ done
 
 # .claude 配下をリンク（既存ファイルを壊さないようファイル単位でリンク）
 mkdir -p "$HOME/.claude"
-echo ".claude/settings.json"
-ln -sf "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
+if [[ ! -f "$HOME/.claude/settings.json" ]]; then
+    echo ".claude/settings.json (copy)"
+    cp "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
+fi
 mkdir -p "$HOME/.claude/hooks"
 for f in "$DOTFILES_DIR"/.claude/hooks/*; do
     name=$(basename "$f")
