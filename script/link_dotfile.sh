@@ -24,11 +24,17 @@ done
 # .config 配下は個別にリンク（ディレクトリごと上書きしない）
 for d in "$DOTFILES_DIR"/.config/*/; do
     name=$(basename "$d")
+    [[ "$name" == "herdr" ]] && continue
     echo ".config/$name"
     mkdir -p "$HOME/.config"
     \rm -rf "$HOME/.config/$name"
     ln -s "$DOTFILES_DIR/.config/$name" "$HOME/.config/$name"
 done
+
+# herdr はソケットやセッション情報も同じディレクトリに置くため、設定ファイルだけリンクする
+mkdir -p "$HOME/.config/herdr"
+echo ".config/herdr/config.toml"
+ln -sf "$DOTFILES_DIR/.config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
 # .claude 配下をリンク（既存ファイルを壊さないようファイル単位でリンク）
 mkdir -p "$HOME/.claude"
