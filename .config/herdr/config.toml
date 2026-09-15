@@ -1,0 +1,32 @@
+onboarding = false
+
+[ui]
+window_title = "{workspace}: {terminal_title}"
+agent_panel_sort = "priority"
+status_indicators = "symbols"
+prompt_new_tab_name = false
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "datetime", format = "%m/%d %H:%M" },
+]
+tab_bar_right_separator = " · "
+
+[ui.sidebar.agents.rows_by_agent]
+claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"], ["agent"]]
+
+[ui.toast]
+delivery = "system"
+
+[theme]
+name = "one-dark"
+auto_switch = false
+
+[keys]
+switch_tab = ["prefix+1..9", "ctrl+1..9"]
+next_tab = ["prefix+n", "ctrl+tab"]
+previous_tab = ["prefix+p", "ctrl+shift+tab"]
+
+[experimental]
+switch_ascii_input_source_in_prefix = true
+reveal_hidden_cursor_for_cjk_ime = true
+cjk_ime_agents = ["claude"]

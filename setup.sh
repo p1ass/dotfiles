@@ -22,3 +22,5 @@ fi
 
 # Claude Code CLI
 curl -fsSL https://claude.ai/install.sh | bash
+
+./script/setup_herdr.sh
