@@ -14,5 +14,9 @@ fi
 defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$ITERM2_DIR"
 defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 
+# 設定の変更を dotfiles の plist に自動で書き戻す (Settings > General > Settings > Save changes: Automatically)
+defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile -bool true
+defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile_selection -int 2
+
 echo "iTerm2 configured to load preferences from: $ITERM2_DIR"
 echo "Restart iTerm2 to apply."
