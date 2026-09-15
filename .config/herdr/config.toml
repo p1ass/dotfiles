@@ -1,7 +1,8 @@
 onboarding = false
 
 [ui]
-window_title = "{workspace}: {terminal_title}"
+window_title = "{workspace}: {pane} {terminal_title}"
+pane_borders = "always"
 agent_panel_sort = "priority"
 status_indicators = "symbols"
 prompt_new_tab_name = false
