@@ -48,3 +48,6 @@ for f in "$DOTFILES_DIR"/.claude/hooks/*; do
     echo ".claude/hooks/$name"
     ln -sf "$f" "$HOME/.claude/hooks/$name"
 done
+
+echo ".claude/statusline-command.sh"
+ln -sf "$DOTFILES_DIR/.claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
