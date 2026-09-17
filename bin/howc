@@ -1,0 +1,40 @@
+#!/bin/zsh
+# `how`で作成したworktreeを後片付けする。worktree内のディレクトリで実行する。
+# 未コミットの変更(submodule内の変更含む)が残っている場合は削除しない。
+# ブランチは削除しない(pushの有無に関わらず残す)。
+#
+# git worktree remove はforceを付けないと、未コミット変更の有無に関わらず
+# submoduleを含むworktreeを一律"cannot be moved or removed"で拒否する仕様のため、
+# 安全確認はgit statusで自前に行った上で--forceを付けて実行する。
+set +e
+
+CUR="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [[ -z "$CUR" ]]; then
+  echo "howc: gitリポジトリ内で実行してください" >&2
+  exit 1
+fi
+
+MAIN_ROOT="$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{print $2; exit}')"
+
+if [[ -z "$MAIN_ROOT" || "$CUR" == "$MAIN_ROOT" ]]; then
+  echo "howc: メインのチェックアウトでは実行できません" >&2
+  exit 1
+fi
+
+if [[ -n "$(git -C "$CUR" status --porcelain --ignore-submodules=none 2>/dev/null)" ]]; then
+  echo "howc: worktree $CUR に未コミットの変更が残っているため削除をスキップしました" >&2
+  exit 1
+fi
+
+# exit trap経由で呼ばれた場合、自プロセスのcwdが削除対象のworktree内になっており、
+# その状態のままだとgit worktree removeが完了しない(プロセスがcwdとして掴んだままになる)ため、
+# 削除対象の外(MAIN_ROOT)に退避してから実行する。
+cd "$MAIN_ROOT" || exit 1
+
+if git worktree remove --force "$CUR" 2>/tmp/howc-last-error.log; then
+  echo "howc: worktree $CUR を削除しました(ブランチは残しています)"
+else
+  echo "howc: worktree $CUR の削除に失敗しました" >&2
+  cat /tmp/howc-last-error.log >&2
+  exit 1
+fi

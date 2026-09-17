@@ -1,0 +1,84 @@
+#!/bin/zsh
+# 現在のペインの隣(同一tab内)に新しいペインを作り、agentを起動して指示を送る。
+# herdr worktree create を伴う`how`とは違い、workspace/worktreeは作らずcwdもそのまま引き継ぐ。
+#
+# 分割方向は現在ペインの幅/高さの比率から自動判定する(幅が高さの2倍を超えるなら右、
+# それ以外は下)。文字セルは縦長なので、単純な幅>高さでは常にrightに寄ってしまうための係数。
+#
+# 使い方:
+#   hoa [--kind KIND] [--name NAME] [--wait] <prompt...>
+#     --kind KIND   起動するagentの種類(省略時: claude)
+#     --name NAME   agent名(省略時: hoa-<timestamp>-<pid>)
+#     --wait        agentの応答が落ち着くまで待ってから終了する(省略時は投げっぱなし)
+set -euo pipefail
+
+if [[ "${HERDR_ENV:-}" != "1" ]]; then
+  echo "herdr管理下のペインで実行してください" >&2
+  exit 1
+fi
+
+usage() {
+  echo "使い方: hoa [--kind KIND] [--name NAME] [--wait] <prompt...>" >&2
+  exit 1
+}
+
+KIND="claude"
+NAME=""
+WAIT=0
+ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --kind) KIND="${2:?--kindには値が必要です}"; shift 2 ;;
+    --name) NAME="${2:?--nameには値が必要です}"; shift 2 ;;
+    --wait) WAIT=1; shift ;;
+    -h|--help) usage ;;
+    --) shift; ARGS+=("$@"); break ;;
+    *) ARGS+=("$1"); shift ;;
+  esac
+done
+
+[[ ${#ARGS[@]} -gt 0 ]] || usage
+PROMPT="${ARGS[*]}"
+
+LAYOUT="$(herdr pane layout --pane "$HERDR_PANE_ID")"
+RECT="$(jq -r --arg p "$HERDR_PANE_ID" '.result.layout.panes[] | select(.pane_id == $p) | .rect' <<< "$LAYOUT")"
+WIDTH="$(jq -r '.width' <<< "$RECT")"
+HEIGHT="$(jq -r '.height' <<< "$RECT")"
+
+DIRECTION="down"
+if (( WIDTH > HEIGHT * 2 )); then
+  DIRECTION="right"
+fi
+
+SPLIT_RESULT="$(herdr pane split --current --direction "$DIRECTION" --cwd "$PWD" --no-focus)"
+PANE_ID="$(jq -r '.result.pane.pane_id' <<< "$SPLIT_RESULT")"
+
+if [[ -z "$NAME" ]]; then
+  NAME="hoa-$(date +%s)-$$"
+fi
+
+# split直後はシェルプロンプトが立ち上がっておらずagent_pane_busyになることがあるため、
+# シェル起動が間に合うまで短い間隔でリトライする。
+TIMEOUT_MS=5000
+INTERVAL_MS=200
+ELAPSED_MS=0
+while true; do
+  if START_ERROR="$(herdr agent start "$NAME" --kind "$KIND" --pane "$PANE_ID" 2>&1 >/dev/null)"; then
+    break
+  fi
+  if [[ "$START_ERROR" != *"agent_pane_busy"* ]] || (( ELAPSED_MS >= TIMEOUT_MS )); then
+    echo "$START_ERROR" >&2
+    exit 1
+  fi
+  sleep "$(( INTERVAL_MS / 1000. ))"
+  (( ELAPSED_MS += INTERVAL_MS ))
+done
+
+if [[ "$WAIT" -eq 1 ]]; then
+  herdr agent prompt "$NAME" "$PROMPT" --wait >/dev/null
+else
+  herdr agent prompt "$NAME" "$PROMPT" >/dev/null
+fi
+
+echo "$NAME ($PANE_ID)"
