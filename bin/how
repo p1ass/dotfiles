@@ -1,0 +1,60 @@
+#!/bin/zsh
+# base branchを指定してworktreeを作成し、herdrの新規workspaceでclaudeを自動起動する。
+# 任意のgitリポジトリ内で実行可能(リポジトリ固有のロジックは含まない)。
+#
+# herdr worktree create はsubmodule初期化と.worktreeinclude(.env等)のコピーを
+# 行わないため、このスクリプトで補っている。submodule初期化自体は
+# .claude/hooks/setup-worktree.sh のSessionStartフックがclaude起動時に自動で行う
+# (このフックが存在しないリポジトリでは単に何も起きないだけで無害)。
+#
+# 作成したpaneには `trap howc EXIT` を仕込む。claudeを閉じてターミナルをexitするだけで
+# howcが自動実行され、git worktree(未コミット変更があれば削除は失敗する)を後片付けする。
+# ブランチは自動削除しない。
+#
+# 使い方:
+#   how <branch-name> [base-branch]
+#   base-branch省略時はリポジトリのorigin/HEADから自動検出する。
+set -euo pipefail
+
+if [[ "${HERDR_ENV:-}" != "1" ]]; then
+  echo "herdr管理下のペインで実行してください" >&2
+  exit 1
+fi
+
+BRANCH="${1:?ブランチ名を指定してください}"
+BASE="${2:-}"
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+if [[ -z "$BASE" ]]; then
+  BASE="$(git -C "$REPO_ROOT" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')"
+  if [[ -z "$BASE" ]]; then
+    git -C "$REPO_ROOT" remote set-head origin -a >/dev/null 2>&1 || true
+    BASE="$(git -C "$REPO_ROOT" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')"
+  fi
+  BASE="${BASE:-main}"
+fi
+
+WT_PATH="$REPO_ROOT/.claude/worktrees/$BRANCH"
+
+git -C "$REPO_ROOT" fetch origin "$BASE"
+
+RESULT="$(herdr worktree create --cwd "$REPO_ROOT" --branch "$BRANCH" --base "origin/$BASE" --path "$WT_PATH" --label "$BRANCH" --focus)"
+PANE_ID="$(jq -r '.result.root_pane.pane_id' <<< "$RESULT")"
+
+if [[ -f "$REPO_ROOT/.worktreeinclude" ]]; then
+  while IFS= read -r f; do
+    [[ -z "$f" || "$f" == \#* ]] && continue
+    if [[ -f "$REPO_ROOT/$f" ]]; then
+      mkdir -p "$(dirname "$WT_PATH/$f")"
+      cp "$REPO_ROOT/$f" "$WT_PATH/$f"
+    fi
+  done < "$REPO_ROOT/.worktreeinclude"
+fi
+
+herdr pane run "$PANE_ID" "trap howc EXIT" >/dev/null
+
+AGENT_NAME="$(printf '%s' "$BRANCH" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_-' '-' | cut -c1-32)"
+[[ "$AGENT_NAME" =~ ^[a-z] ]] || AGENT_NAME="w-$AGENT_NAME"
+
+herdr agent start "$AGENT_NAME" --kind claude --pane "$PANE_ID"
