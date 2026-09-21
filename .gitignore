@@ -4,6 +4,7 @@
 .gitconfig_local
 
 .claude/settings.local.json
+.claude/hooks/herdr-agent-state.sh
 
 .config/karabiner/automatic_backups
 
