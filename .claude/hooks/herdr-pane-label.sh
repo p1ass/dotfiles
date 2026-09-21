@@ -17,12 +17,7 @@ branch="$(git -C "$cwd" branch --show-current 2>/dev/null || true)"
 [[ -z "$branch" ]] && branch="$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null || true)"
 [[ -z "$branch" ]] && branch="$(basename "$cwd")"
 
-# herdr にペインごとの色設定がないため、ブランチ名から決まる絵文字で見分ける
-emojis=(🔴 🟠 🟡 🟢 🔵 🟣)
-hash="$(printf '%s' "$branch" | cksum | cut -d' ' -f1)"
-emoji="${emojis[$((hash % ${#emojis[@]}))]}"
-
-"$HERDR" pane rename "$pane" "$emoji $branch" >/dev/null 2>&1 || true
+"$HERDR" pane rename "$pane" "$branch" >/dev/null 2>&1 || true
 
 base="$(printf '%s' "$branch" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_-]+/-/g; s/^[^a-z]+//; s/-+$//' | cut -c1-29)"
 [[ -z "$base" ]] && exit 0
