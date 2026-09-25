@@ -1,0 +1,17 @@
+# フォント設定
+font-family = "JetBrains Mono"
+font-size = 12
+
+# 背景の透過とぼかし（Macで映える設定）
+background-opacity = 0.95
+background-blur-radius = 20
+
+# クイックターミナル（ドロップダウン）の設定
+keybind = global:cmd+shift+t=toggle_quick_terminal
+quick-terminal-position = top
+
+# クリップボードアクセスなどの確認ダイアログをスキップして快適にする
+clipboard-read = allow
+clipboard-write = allow
+
+theme = Atom One Dark
