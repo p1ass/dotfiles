@@ -21,6 +21,23 @@ if [[ -z "$MAIN_ROOT" || "$CUR" == "$MAIN_ROOT" ]]; then
   exit 1
 fi
 
+# worktreeから起動したdocker composeのコンテナは、worktreeを消しても止まらずCPUを使い続ける。
+# compose付与のworking_dirラベルで特定するためリポジトリやMakefileに依存せず、dockerが無い環境では何もしない。
+# 自worktree分に加え、作成元ディレクトリが既に無いプロジェクト(Agentのworktree等)も止める。
+down_compose_projects() {
+  command -v docker >/dev/null 2>&1 || return 0
+  local lines project dir
+  lines="$(docker ps -a --format '{{.Label "com.docker.compose.project"}}\t{{.Label "com.docker.compose.project.working_dir"}}' 2>/dev/null | sort -u)" || return 0
+  while IFS=$'\t' read -r project dir; do
+    [[ -z "$project" || -z "$dir" ]] && continue
+    if [[ "$dir" == "$CUR" || ! -d "$dir" ]]; then
+      docker compose -p "$project" down >/dev/null 2>&1 &&
+        echo "howc: dockerコンテナ($project)を停止しました"
+    fi
+  done <<< "$lines"
+}
+down_compose_projects
+
 if [[ -n "$(git -C "$CUR" status --porcelain --ignore-submodules=none 2>/dev/null)" ]]; then
   echo "howc: worktree $CUR に未コミットの変更が残っているため削除をスキップしました" >&2
   exit 1
