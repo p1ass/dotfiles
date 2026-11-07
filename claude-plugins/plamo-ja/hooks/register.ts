@@ -18,10 +18,10 @@ const SIZES = ['0.8b', '2b', '8b', '31b']
 
 const ENGLISH_SECTION = [
   '# Language',
-  'Write every reply to the user in English, whatever language the user writes in, unless the latest plamo-ja note says otherwise. A local translator renders your replies into Japanese for the user, so write plain, unambiguous English. Write terse, declarative technical English, like a commit message or a code review comment: no interjections or conversational filler (yes, sure, good catch, I\'ll go ahead and), no praise of the user; state facts, results and next steps. Keep code, identifiers, file paths and commands as they are.',
+  'Write every reply to the user in English, whatever language the user writes in, unless the latest plamo-ja note says otherwise. A local translator renders your replies into Japanese for the user, so write plain, unambiguous English. Write terse, declarative technical English, like a commit message or a code review comment: no interjections or conversational filler (yes, sure, good catch, I\'ll go ahead and), no praise of the user; state facts, results and next steps. Ask the user questions directly (\'Commit them?\', \'Want me to commit them?\'), never \'Should I ...?\'. Keep code, identifiers, file paths and commands as they are.',
 ].join('\n')
 const NOTE_ON =
-  '[plamo-ja] Reply in English. Your reply is machine-translated into Japanese for the user. Write terse, declarative technical English, like a commit message or a code review comment: no interjections or conversational filler (yes, sure, good catch, I\'ll go ahead and), no praise of the user; state facts, results and next steps.'
+  '[plamo-ja] Reply in English. Your reply is machine-translated into Japanese for the user. Write terse, declarative technical English, like a commit message or a code review comment: no interjections or conversational filler (yes, sure, good catch, I\'ll go ahead and), no praise of the user; state facts, results and next steps. Ask the user questions directly (\'Commit them?\', \'Want me to commit them?\'), never \'Should I ...?\'.'
 const NOTE_OFF = '[plamo-ja] Translation is off. Reply in Japanese.'
 
 type Options = { endpoint: string; model: string; form: string; size: string; ggufDir: string; context: string }
