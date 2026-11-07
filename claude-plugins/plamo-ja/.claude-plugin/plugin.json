@@ -26,17 +26,23 @@
         "plain"
       ]
     },
-    "ggufPath": {
+    "size": {
       "type": "string",
-      "title": "GGUF path",
-      "description": "Local GGUF file for llama-server; when it does not exist, hfRepo is downloaded instead",
-      "default": "~/.cache/plamo/plamo-3-translate-0.8b-Q4_K_M.gguf"
+      "title": "Model size",
+      "description": "PLaMo 3 Translate size used until /plamo model picks another",
+      "default": "0.8b",
+      "options": [
+        "0.8b",
+        "2b",
+        "8b",
+        "31b"
+      ]
     },
-    "hfRepo": {
+    "ggufDir": {
       "type": "string",
-      "title": "Hugging Face model",
-      "description": "Model llama-server downloads with -hf when ggufPath does not exist",
-      "default": "pfnet/plamo-3-translate-0.8b-GGUF:Q4_K_M"
+      "title": "GGUF folder",
+      "description": "Folder holding plamo-3-translate-<size>-Q4_K_M.gguf; a missing file is downloaded from Hugging Face with llama-server -hf",
+      "default": "~/.cache/plamo"
     },
     "context": {
       "type": "string",

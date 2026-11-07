@@ -5,6 +5,7 @@ import type { Translation } from '../types'
 
 const isEnabled = atom({ plugin: 'plamo-ja', key: 'isEnabled' } as const, true)
 const translations = atom({ plugin: 'plamo-ja', key: 'translations' } as const, null)
+const chosenSize = atom({ plugin: 'plamo-ja', key: 'size' } as const, null)
 
 const STOP = ['<|plamo:tag|>', '<|plamo:bos|>']
 const SETTLE_MS = 300
@@ -13,6 +14,7 @@ const MAX_RETRIES = 2
 const MAX_PARALLEL = 2
 const STORE_LIMIT = 3000
 const NOTICE_CHARS = 300
+const SIZES = ['0.8b', '2b', '8b', '31b']
 
 const ENGLISH_SECTION = [
   '# Language',
@@ -22,7 +24,7 @@ const NOTE_ON =
   '[plamo-ja] Reply in English. Your reply is machine-translated into Japanese for the user. Write terse, declarative technical English, like a commit message or a code review comment: no interjections or conversational filler (yes, sure, good catch, I\'ll go ahead and), no praise of the user; state facts, results and next steps.'
 const NOTE_OFF = '[plamo-ja] Translation is off. Reply in Japanese.'
 
-type Options = { endpoint: string; model: string; form: string; ggufPath: string; hfRepo: string; context: string }
+type Options = { endpoint: string; model: string; form: string; size: string; ggufDir: string; context: string }
 
 function hash(text: string): string {
   let a = 0x811c9dc5
@@ -96,37 +98,67 @@ const queue: Array<{ id: string; source: string }> = []
 const queued = new Set<string>()
 let storeChain: Promise<void> = Promise.resolve()
 let serverStart: Promise<boolean> | null = null
+let verifiedSize: string | null = null
 
-async function isServerUp($: EngineInterface, options: Options): Promise<boolean> {
+function baseUrl(options: Options): string {
+  return options.endpoint.replace(/\/v1\/?$/, '').replace(/\/$/, '')
+}
+
+function portOf(options: Options): string {
+  return options.endpoint.match(/:(\d+)/)?.[1] ?? '8765'
+}
+
+async function sizeOf($: EngineInterface, options: Options): Promise<string> {
+  return (await read($, chosenSize)) ?? options.size
+}
+
+async function loadedModel($: EngineInterface, options: Options): Promise<string | null> {
   try {
-    const res = await $.http.fetch(`${options.endpoint.replace(/\/v1\/?$/, '')}/health`)
-    return res.ok
+    const res = await $.http.fetch(`${baseUrl(options)}/props`)
+    if (!res.ok) return null
+    return String(JSON.parse(res.text).model_path ?? '')
   } catch {
-    return false
+    return null
   }
 }
 
-async function startServer($: EngineInterface, options: Options): Promise<boolean> {
-  const port = options.endpoint.match(/:(\d+)/)?.[1] ?? '8765'
+async function startServer($: EngineInterface, options: Options, size: string): Promise<boolean> {
+  const port = portOf(options)
   const script = [
-    'p="$1"',
-    'case "$p" in "~/"*) p="$HOME/${p#"~/"}";; esac',
+    'd="$1"',
+    'case "$d" in "~/"*) d="$HOME/${d#"~/"}";; esac',
     'export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"',
     'command -v llama-server >/dev/null || exit 3',
-    'if [ -n "$p" ] && [ -f "$p" ]; then src="-m"; else src="-hf"; p="$4"; fi',
+    'pkill -f "llama-server.*--port $2" && sleep 1',
+    'f="$d/plamo-3-translate-$4-Q4_K_M.gguf"',
+    'if [ -f "$f" ]; then src="-m"; p="$f"; else src="-hf"; p="pfnet/plamo-3-translate-$4-GGUF:Q4_K_M"; fi',
     'nohup llama-server "$src" "$p" -c 16384 --host 127.0.0.1 --port "$2" --alias "$3" --jinja --no-prefill-assistant >"${TMPDIR:-/tmp}/plamo-ja-llama-server.log" 2>&1 </dev/null &',
   ].join('\n')
-  const run = await $.process.run(['sh', '-c', script, 'sh', options.ggufPath, port, options.model, options.hfRepo])
+  const run = await $.process.run(['sh', '-c', script, 'sh', options.ggufDir, port, options.model, size])
   if (run.exitCode !== 0) return false
-  for (let i = 0; i < 600; i++) {
-    if (await isServerUp($, options)) return true
+  for (let i = 0; i < 1200; i++) {
+    if ((await loadedModel($, options))?.includes(`translate-${size}-`)) return true
     await $.clock.sleep(500)
   }
   return false
 }
 
+async function ensureServer($: EngineInterface, options: Options): Promise<void> {
+  const size = await sizeOf($, options)
+  if (verifiedSize === size) return
+  if (!(await loadedModel($, options))?.includes(`translate-${size}-`)) {
+    serverStart ??= startServer($, options, size).finally(() => {
+      serverStart = null
+    })
+    if (!(await serverStart)) {
+      throw new Error(`PLaMo ${size} の翻訳サーバー(${options.endpoint})を起動できませんでした（brew install llama.cpp が必要）`)
+    }
+  }
+  verifiedSize = size
+}
+
 async function complete($: EngineInterface, options: Options, source: string): Promise<string> {
-  const res = await $.http.fetch(`${options.endpoint.replace(/\/$/, '')}/completions`, {
+  const res = await $.http.fetch(`${baseUrl(options)}/v1/completions`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -187,15 +219,11 @@ async function translate($: EngineInterface, options: Options, id: string, sourc
     await update($, member, (): Translation => ({ status: 'pending' }))
     let ja: string
     try {
+      await ensureServer($, options)
       ja = await complete($, options, source)
     } catch (err) {
-      if (await isServerUp($, options)) throw err
-      serverStart ??= startServer($, options).finally(() => {
-        serverStart = null
-      })
-      if (!(await serverStart)) {
-        throw new Error(`翻訳サーバー(${options.endpoint})に接続できず、自動起動もできませんでした（brew install llama.cpp が必要）`)
-      }
+      verifiedSize = null
+      await ensureServer($, options)
       ja = await complete($, options, source)
     }
     await update($, member, (): Translation => ({ status: 'done', text: ja }))
@@ -214,11 +242,12 @@ async function translate($: EngineInterface, options: Options, id: string, sourc
 }
 
 async function translateForNotice($: EngineInterface, options: Options, markdown: string): Promise<string> {
+  const size = await sizeOf($, options)
   const head = markdown.split(/\n{2,}/).reduce((acc, para) => (acc.length >= NOTICE_CHARS ? acc : acc ? `${acc}\n\n${para}` : para), '')
   const parts = await Promise.all(
     pieces(head).map(async piece => {
       if (piece.kind !== 'para' || !/[A-Za-z]/.test(piece.body)) return piece.body
-      const id = hash(`${options.form}\n${options.context}\n${piece.body}`)
+      const id = hash(`${size}\n${options.form}\n${options.context}\n${piece.body}`)
       const state = await read($, memberOf(translations, { requestId: id }))
       if (state?.status === 'done') return state.text
       return (await recall($, id)) ?? complete($, options, piece.body)
@@ -231,17 +260,35 @@ export const register: Register = (on, rawOptions) => {
   const options = rawOptions as unknown as Options
 
   on('session.start', async ($, e, next) => {
+    const stored = await $.store.get('size')
+    if (typeof stored === 'string' && SIZES.includes(stored)) await update($, chosenSize, () => stored)
     await $.command.register({
       name: 'plamo',
-      description: 'PLaMo翻訳のオン・オフを切り替える (on / off / 引数なしでトグル)',
-      argumentHint: '[on|off]',
+      description: 'PLaMo翻訳の切り替え: on / off / model 0.8b|2b|8b|31b / status',
+      argumentHint: '[on|off|model <size>|status]',
     })
     return next(e)
   })
 
   on('command.run', { command: 'plamo' }, async ($, e) => {
-    const arg = String(e.args ?? '').trim()
-    const value = await update($, isEnabled, current => (arg === 'on' ? true : arg === 'off' ? false : !current))
+    const [verb = '', size = ''] = String(e.args ?? '').trim().split(/\s+/)
+    if (verb === 'model') {
+      if (!SIZES.includes(size)) return { text: `モデルサイズは ${SIZES.join(' / ')} のどれか` }
+      await update($, chosenSize, () => size)
+      await $.store.set('size', size)
+      verifiedSize = null
+      $.clock.after(0, () => {
+        void ensureServer($, options)
+          .then(() => $.ui.toast(`PLaMo ${size} に切り替えました`))
+          .catch(err => $.ui.toast(err instanceof Error ? err.message : String(err)))
+      })
+      return { text: `PLaMo ${size} に切り替え中（サーバーを再起動します。未ダウンロードならダウンロードから）` }
+    }
+    if (verb === 'status') {
+      const loaded = (await loadedModel($, options)) ?? '停止中'
+      return { text: `翻訳: ${(await read($, isEnabled)) ? 'オン' : 'オフ'} / 選択中: ${await sizeOf($, options)} / サーバー: ${loaded}` }
+    }
+    const value = await update($, isEnabled, current => (verb === 'on' ? true : verb === 'off' ? false : !current))
     return { text: value ? 'PLaMo翻訳: オン（Claudeは英語で返答し、日本語訳を表示します）' : 'PLaMo翻訳: オフ' }
   })
 
@@ -265,6 +312,7 @@ export const register: Register = (on, rawOptions) => {
     const source = e.props.text
     if (!/[A-Za-z]/.test(source)) return next(e)
 
+    const size = await sizeOf($, options)
     const list = pieces(source)
     const lastPara = list.map(p => p.kind).lastIndexOf('para')
     let isPending = false
@@ -272,7 +320,7 @@ export const register: Register = (on, rawOptions) => {
     const shown = await Promise.all(
       list.map(async (piece, i) => {
         if (piece.kind !== 'para' || !/[A-Za-z]/.test(piece.body)) return piece.body
-        const id = hash(`${options.form}\n${options.context}\n${piece.body}`)
+        const id = hash(`${size}\n${options.form}\n${options.context}\n${piece.body}`)
         const state = await read($, memberOf(translations, { requestId: id }))
         if (state?.status === 'done') return state.text
         if (state?.status === 'error') {

@@ -8,7 +8,7 @@ Claude Codeに英語で返答させ、画面にはローカルのPLaMo 3 Transla
 - 返答は段落ごとに `llama-server` の `/v1/completions` へPFML3形式で送って訳す。コードブロックは訳さない
 - 訳文は `$.store` に最大3000段落まで保存し、resumeや再起動のあとも使い回す
 - Stopフックに渡る `last_assistant_message` も日本語に差し替えるので、通知も日本語になる
-- 翻訳サーバーが落ちていれば `llama-server` を自動起動する。`ggufPath` のファイルがなければ `hfRepo` を `-hf` でダウンロードする
+- 翻訳サーバーが落ちているか別サイズのモデルを載せていれば `llama-server` を起動し直す。`ggufDir` に `plamo-3-translate-<size>-Q4_K_M.gguf` がなければ Hugging Face から `-hf` でダウンロードする
 
 ## セットアップ
 
@@ -23,6 +23,8 @@ claude plugin install plamo-ja@p1ass-dotfiles
 ## 使い方
 
 - `/plamo on|off` で翻訳を切り替える。オフにすると日本語で返答する
-- `/config` で `endpoint`・`form`（polite / plain）・`context`・`ggufPath`・`hfRepo` を変える
+- `/plamo model 0.8b|2b|8b|31b` でモデルを切り替える。選んだサイズは次のセッションにも引き継ぐ
+- `/plamo status` で選択中のサイズとサーバーが載せているモデルを表示する
+- `/config` で `endpoint`・`form`（polite / plain）・`context`・`size`・`ggufDir` を変える
 
 モデルはPLaMo Community Licenseに従う。
