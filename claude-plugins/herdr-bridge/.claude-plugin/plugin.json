@@ -1,0 +1,8 @@
+{
+  "name": "herdr-bridge",
+  "version": "0.1.0",
+  "description": "Reports approval waits and running subagents to the herdr sidebar as pane tokens",
+  "author": {
+    "name": "p1ass"
+  }
+}

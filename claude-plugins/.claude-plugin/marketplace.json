@@ -1,5 +1,8 @@
 {
   "name": "p1ass-dotfiles",
   "owner": { "name": "p1ass" },
-  "plugins": [{ "name": "plamo-ja", "source": "./plamo-ja" }]
+  "plugins": [
+    { "name": "plamo-ja", "source": "./plamo-ja" },
+    { "name": "herdr-bridge", "source": "./herdr-bridge" }
+  ]
 }

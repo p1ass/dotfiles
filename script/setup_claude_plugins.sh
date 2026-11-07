@@ -9,3 +9,4 @@ if ! "$CLAUDE" plugin marketplace list 2>/dev/null | grep -q p1ass-dotfiles; the
   "$CLAUDE" plugin marketplace add "$DOTFILES_DIR/claude-plugins"
 fi
 "$CLAUDE" plugin install plamo-ja@p1ass-dotfiles
+"$CLAUDE" plugin install herdr-bridge@p1ass-dotfiles
