@@ -256,6 +256,37 @@ async function translateForNotice($: EngineInterface, options: Options, markdown
   return parts.join('')
 }
 
+async function toJa($: EngineInterface, options: Options, text: string): Promise<string> {
+  if (!/[A-Za-z]/.test(text)) return text
+  const size = await sizeOf($, options)
+  const id = hash(`${size}\n${options.form}\n${options.context}\n${text}`)
+  const cached = await recall($, id)
+  if (cached !== null) return cached
+  await ensureServer($, options)
+  const ja = await complete($, options, text)
+  await remember($, id, ja)
+  return ja
+}
+
+type Question = { question: string; header: string; options: Array<{ label: string; description: string; preview?: string }>; multiSelect: boolean }
+
+async function translateQuestion($: EngineInterface, options: Options, q: Question): Promise<Question> {
+  const [question, header, labels, descriptions] = await Promise.all([
+    toJa($, options, q.question),
+    toJa($, options, q.header),
+    Promise.all(q.options.map(o => toJa($, options, o.label))),
+    Promise.all(q.options.map(o => toJa($, options, o.description))),
+  ])
+  // 回答は選択肢のラベルで返るので、訳して重複したら原文のラベルに戻す
+  const isUnique = new Set(labels).size === labels.length
+  return {
+    ...q,
+    question,
+    header: header.length <= 12 ? header : q.header,
+    options: q.options.map((o, i) => ({ ...o, label: isUnique ? labels[i]! : o.label, description: descriptions[i]! })),
+  }
+}
+
 export const register: Register = (on, rawOptions) => {
   const options = rawOptions as unknown as Options
 
@@ -352,6 +383,12 @@ export const register: Register = (on, rawOptions) => {
     const notes = [isPending ? '*⏳ PLaMo 翻訳中…*' : '', failure ? `> ⚠ PLaMo翻訳に失敗: ${failure}` : ''].filter(Boolean)
     return next({ ...e, props: { ...e.props, text: [shown.join(''), ...notes].join('\n\n') } })
   })
+
+  on('tool.call', { tool: 'AskUserQuestion' }, async ($, e, next) => {
+    if (!(await read($, isEnabled))) return next(e)
+    const questions = await Promise.all(e.questions.map(q => translateQuestion($, options, q)))
+    return next({ ...e, questions })
+  }).catch(($, e, next) => next(e))
 
   on('classic.Stop', async ($, e, next) => {
     const message = e.last_assistant_message
