@@ -288,6 +288,7 @@ export const register: Register = (on, rawOptions) => {
       const loaded = (await loadedModel($, options)) ?? '停止中'
       return { text: `翻訳: ${(await read($, isEnabled)) ? 'オン' : 'オフ'} / 選択中: ${await sizeOf($, options)} / サーバー: ${loaded}` }
     }
+    if (!['', 'on', 'off'].includes(verb)) return { text: '使い方: /plamo [on|off|model 0.8b|2b|8b|31b|status]' }
     const value = await update($, isEnabled, current => (verb === 'on' ? true : verb === 'off' ? false : !current))
     return { text: value ? 'PLaMo翻訳: オン（Claudeは英語で返答し、日本語訳を表示します）' : 'PLaMo翻訳: オフ' }
   })
